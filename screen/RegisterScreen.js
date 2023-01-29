@@ -14,6 +14,8 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
+import {  createUserWithEmailAndPassword } from 'firebase/auth';
+import {auth} from "../firebase/config"
 
 import Loader from './Components/Loader';
 
@@ -37,76 +39,27 @@ const RegisterScreen = (props) => {
 
   const handleSubmitButton = () => {
     setErrortext('');
-    // if (!userName) {
-    //   alert('Please fill Name');
-    //   return;
-    // }
-    // if (!userEmail) {
-    //   alert('Please fill Email');
-    //   return;
-    // }
-    // if (!userAge) {
-    //   alert('Please fill Age');
-    //   return;
-    // }
-    // if (!userAddress) {
-    //   alert('Please fill Address');
-    //   return;
-    // }
-    // if (!userPassword) {
-    //   alert('Please fill Password');
-    //   return;
-    // }
-    //Show Loader
     setLoading(true);
-    setIsRegistraionSuccess(true);
+    createUserWithEmailAndPassword(auth, userEmail,userPassword)
+  .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    console.log(user)
     console.log(
-      'Registration Successful. Please Login to proceed'
+      'Registration Successfull!'
     );
-    // var dataToSend = {
-    //   name: userName,
-    //   email: userEmail,
-    //   age: userAge,
-    //   address: userAddress,
-    //   password: userPassword,
-    // };
-    // var formBody = [];
-    // for (var key in dataToSend) {
-    //   var encodedKey = encodeURIComponent(key);
-    //   var encodedValue = encodeURIComponent(dataToSend[key]);
-    //   formBody.push(encodedKey + '=' + encodedValue);
-    // }
-    // formBody = formBody.join('&');
+    setLoading(false);
+    setIsRegistraionSuccess(true);
+    // ...
+  })
+  .catch((error) => {
+    setLoading(false);
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    setErrortext(error.message)
+    // ..
+  });
 
-    // fetch('http://localhost:3000/api/user/register', {
-    //   method: 'POST',
-    //   body: formBody,
-    //   headers: {
-    //     //Header Defination
-    //     'Content-Type':
-    //     'application/x-www-form-urlencoded;charset=UTF-8',
-    //   },
-    // })
-    //   .then((response) => response.json())
-    //   .then((responseJson) => {
-    //     //Hide Loader
-    //     setLoading(false);
-    //     console.log(responseJson);
-    //     // If server response message same as Data Matched
-    //     if (responseJson.status === 'success') {
-    //       setIsRegistraionSuccess(true);
-    //       console.log(
-    //         'Registration Successful. Please Login to proceed'
-    //       );
-    //     } else {
-    //       setErrortext(responseJson.msg);
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     //Hide Loader
-    //     setLoading(false);
-    //     console.error(error);
-    //   });
   };
   if (isRegistraionSuccess) {
     return (
@@ -130,8 +83,8 @@ const RegisterScreen = (props) => {
         <TouchableOpacity
           style={styles.buttonStyle}
           activeOpacity={0.5}
-          onPress={() => props.navigation.navigate('LoginScreen')}>
-          <Text style={styles.buttonTextStyle}>Login Now</Text>
+          onPress={() => props.navigation.navigate('DrawerNavigationRoutes')}>
+          <Text style={styles.buttonTextStyle}>GO TO HOME</Text>
         </TouchableOpacity>
       </View>
     );

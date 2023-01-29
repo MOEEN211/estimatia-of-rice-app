@@ -55,9 +55,12 @@ const RiceScreen = () => {
     return (
       <SafeAreaView style={styles.container}>
         <Image style={styles.preview} source={{ uri: "data:image/jpg;base64," + photo.base64 }} />
-        <Button title="Share" onPress={sharePic} />
-        {hasMediaLibraryPermission ? <Button title="Save" onPress={savePhoto} /> : undefined}
-        <Button title="Discard" onPress={() => setPhoto(undefined)} />
+        <View style = {styles.btnStyles}>
+        <Button title="Share" onPress={sharePic} style = {styles.btn}/>
+        {hasMediaLibraryPermission ? <Button title="Save" onPress={savePhoto} style = {styles.btn} /> : undefined}
+        <Button title="Discard" onPress={() => setPhoto(undefined)} style = {styles.btn} />
+          
+        </View>
       </SafeAreaView>
     );
   }
@@ -76,6 +79,7 @@ const RiceScreen = () => {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
+      
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -83,6 +87,7 @@ const styles = StyleSheet.create({
         position: "absolute",
         bottom: 40,
       backgroundColor: '#fff',
+      borderRadius: 50,
     },
     preview: {
       alignSelf: 'stretch',
@@ -96,6 +101,18 @@ const styles = StyleSheet.create({
         borderColor: "red",
         borderWidth: 5,
 
+    },
+    btnStyles:{
+      width: "100%",
+      backgroundColor: "#1df289",
+      paddingHorizontal: 50,
+      paddingVertical: 10,
+      display: "flex",
+      flexDirection: "row",
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    Btn:{
     }
   });
   
